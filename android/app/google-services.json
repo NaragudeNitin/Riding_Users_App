@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "1034021894780",
+    "firebase_url": "https://uber-ola-clone-c2407-default-rtdb.firebaseio.com",
+    "project_id": "uber-ola-clone-c2407",
+    "storage_bucket": "uber-ola-clone-c2407.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1034021894780:android:d5626a5c1e1240d8cfa7f9",
+        "android_client_info": {
+          "package_name": "com.example.drivers_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1034021894780-07pj87s1qk1iqu7le2jtqhegr6brqk78.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRPvjJib6RBjh-9Kq-TfxMJr6Qh7VfaPA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1034021894780-07pj87s1qk1iqu7le2jtqhegr6brqk78.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1034021894780:android:2f8821c8f9e358e0cfa7f9",
+        "android_client_info": {
+          "package_name": "com.example.driveusersapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1034021894780-07pj87s1qk1iqu7le2jtqhegr6brqk78.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRPvjJib6RBjh-9Kq-TfxMJr6Qh7VfaPA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1034021894780-07pj87s1qk1iqu7le2jtqhegr6brqk78.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
