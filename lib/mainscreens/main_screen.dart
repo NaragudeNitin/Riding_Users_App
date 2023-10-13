@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:drive_users_app/global/global.dart';
 import 'package:drive_users_app/widgets/my_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MainScreen extends StatefulWidget {
@@ -16,6 +17,11 @@ class _MainScreenState extends State<MainScreen> {
   final Completer<GoogleMapController> _controllerGoogleMap =
       Completer<GoogleMapController>();
   GoogleMapController? newGoogleMapController;
+  double searchLocationContainerHeight = 220.0;
+  Position? userCurrentPosition;
+  var geolocator = Geolocator();
+  LocationPermission? _locationPermission;
+  double bottomPaddingOfMap = 0;
 
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
@@ -190,11 +196,37 @@ class _MainScreenState extends State<MainScreen> {
                 ''');
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  // }
-  double searchLocationContainerHeight = 220.0;
+  locateUserPosition() async {
+    Position cPosition = await Geolocator.getCurrentPosition(
+        desiredAccuracy:
+            LocationAccuracy.high); //this will give us exact user position
+    userCurrentPosition = cPosition;
+    LatLng latLngPosition = LatLng(
+      userCurrentPosition!.latitude,
+      userCurrentPosition!.longitude,
+    ); //this is lattitude and longitude of the user
+    CameraPosition cameraPosition = CameraPosition(
+        //we can assign this camerapostion to google maps controller
+        target: latLngPosition,
+        zoom: 14); // this will give you your cameraposition on map
+
+    newGoogleMapController!
+        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+  }
+
+  checkIfLocationPermissionAllowed() async {
+    _locationPermission = await Geolocator.requestPermission();
+
+    if (_locationPermission == LocationPermission.denied) {
+      _locationPermission = await Geolocator.requestPermission();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkIfLocationPermissionAllowed();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -207,22 +239,29 @@ class _MainScreenState extends State<MainScreen> {
       body: Stack(
         children: [
           GoogleMap(
+            padding: EdgeInsets.only(bottom: bottomPaddingOfMap),
             initialCameraPosition: _kGooglePlex,
             mapType: MapType.normal,
+            zoomGesturesEnabled: true,
+            zoomControlsEnabled: true,
             myLocationEnabled: true,
             onMapCreated: (GoogleMapController controller) {
               if (!_controllerGoogleMap.isCompleted) {
                 _controllerGoogleMap.complete(controller);
                 newGoogleMapController = controller;
               }
-
               //for black theme of google map
               blackThemeGoogleMap();
+
+              setState(() {
+                bottomPaddingOfMap = 240;
+              });
+              locateUserPosition();
             },
           ),
           //custom hamburger button for drawer
           Positioned(
-            top: 36,
+            top: 46,
             left: 16,
             child: GestureDetector(
               onTap: () {
@@ -238,7 +277,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
 
-          //ui for searching location
+          // ui for searching location
           Positioned(
             bottom: 0,
             left: 0,
@@ -251,7 +290,7 @@ class _MainScreenState extends State<MainScreen> {
                     const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                 height: searchLocationContainerHeight,
                 decoration: const BoxDecoration(
-                  color: Colors.black,
+                  color: Colors.black54,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
